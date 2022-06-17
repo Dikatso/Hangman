@@ -7,4 +7,23 @@ public class Hangman
     String[] hardMode = {"Drawing","Birthday","Elephant","Animal","Queue","Unable"};
 
 
+    static void printBoard()
+    {
+        System.out.println("-------------");
+        System.out.printf("%-11s |\n", "|");
+        System.out.printf("%-11s O\n", "|");
+        System.out.printf("%-10s /|\\ \n", "|");
+        System.out.printf("%-11s |\n", "|");
+        System.out.printf("%-10s / \\\n", "|");
+        System.out.println("|");
+        System.out.println("'------------");
+
+
+    }
+
+    public static void main(String[] args)
+    {
+        printBoard();
+    }
+
 }
