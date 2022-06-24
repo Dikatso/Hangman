@@ -7,9 +7,9 @@ public class Hangman
     int missedWords = 0;
     int diffMode = 0;
     String[] wrongLetters = {};
-    String[] easyMode = {"Doll","Toy","Red","Jug","Van","Yak","Zip"};
-    String[] mediumMode = {"Honey","Mother","Eight","Family","Jelly","Jump","Boat","Dust"};
-    String[] hardMode = {"Drawing","Birthday","Elephant","Animal","Queue","Unable"};
+    String[] easyMode = {"DOLL","TOY","RED","JUG","VAN","YAK","ZIP"};
+    String[] mediumMode = {"HONEY","MOTHER","EIGHT","FAMILY","JELLY","JUMP","BOAT","DUST"};
+    String[] hardMode = {"DRAWING","BIRTHDAY","ELEPHANT","ANIMAL","QUEUE","UNABLE"};
 
 
     void printBoard(int numErrors)
@@ -132,83 +132,176 @@ public class Hangman
 
         Scanner myScanner = new Scanner(System.in);
         diffMode = myScanner.nextInt();
-
-        
         play(diffMode);
+        myScanner.close();
     }
 
     void play(int mode)
     {
-        switch (mode)
+        if (mode == 1)
         {
-            case 1:
-                Random randomIndex = new Random();
-                Scanner guessWord = new Scanner(System.in);
+            Random randomIndex = new Random();              // Used to get random word from list
+            Scanner guessWord = new Scanner(System.in);     // Scanner to read user input
 
-                System.out.println(randomIndex.nextInt(easyMode.length));
-                String word = easyMode[randomIndex.nextInt(easyMode.length)].toString();
+            String word = easyMode[randomIndex.nextInt(easyMode.length)].toString();    // Word randomly chosen from list
+            StringBuilder myName = new StringBuilder(word);                 //Hides the word to be guessed and unveils it as the user guesses
+            StringBuilder wrongLetters = new StringBuilder();               //Stores the wrong guessed letters
+            for (int i = 0; i < word.length(); i++)
+            {
+                myName.setCharAt(i, '*');
                 
-                StringBuilder myName = new StringBuilder(word);
-                StringBuilder wrongLetters = new StringBuilder();
-                for (int i = 0; i < word.length(); i++)
+            }     
+            while (missedWords < 7)
+            {
+                
+                System.out.println("Your word looks like this:");
+                System.out.println(myName);
+
+                System.out.println("Enter your guess :");
+                System.out.print("->");
+                char fUpper = Character.toUpperCase(guessWord.next().charAt(0));
+
+                if(!(word.contains(String.valueOf(fUpper))))
                 {
-                    myName.setCharAt(i, '*');
-                    
+                    wrongLetters.append(fUpper + " ");
+                    missedWords += 1;
                 }
-                
-
-                while (missedWords < 7)
+                for (int i = 0; i < word.length(); i++) 
                 {
-                    
-                    System.out.println("Your word looks like this:");
-                    System.out.println(myName);
-
-                    System.out.println("Enter your guess :");
-                    System.out.print("->");
-                    char currentGuessedLetter = guessWord.next().charAt(0);
-
-                    for (int i = 0; i < word.length(); i++) 
+                    if (fUpper == word.charAt(i))
                     {
-                        if (currentGuessedLetter == word.charAt(i))
-                        {
-                            myName.setCharAt(i, currentGuessedLetter);
-
-                        }
-
-                        else
-                        {
-                            wrongLetters.append(currentGuessedLetter);
-                            missedWords += 1;
-                        }
-                       
-                    
+                        myName.setCharAt(i, fUpper);
+                        storePoints += 1;
                     }
-
-                    printBoard(missedWords);
-                    System.out.println("Points : " + storePoints);
-                    System.out.println("Wrong Letters " + wrongLetters.toString());
-
-
-
                 }
+                printBoard(missedWords);
+                //System.out.println("Points: " + storePoints);
+                System.out.println("Wrong Letters: " + wrongLetters.toString());
+                if(word.equals(myName.toString()))
+                {
+                    System.out.println("Game Won!");
+                    break;
+                }
+                else if(missedWords == 6)
+                {
 
+                    System.out.println("Game Lost...");
+                    System.out.println("Word to be guessed :" + word);
+                    break;
+                }
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                guessWord.close();
+            }
+        }
+
+        else if (mode == 2)
+        {
+            Random randomIndex = new Random();              // Used to get random word from list
+            Scanner guessWord = new Scanner(System.in);     // Scanner to read user input
+
+            String word = mediumMode[randomIndex.nextInt(mediumMode.length)].toString();    // Word randomly chosen from list
+            StringBuilder myName = new StringBuilder(word);                 //Hides the word to be guessed and unveils it as the user guesses
+            StringBuilder wrongLetters = new StringBuilder();               //Stores the wrong guessed letters
+            for (int i = 0; i < word.length(); i++)
+            {
+                myName.setCharAt(i, '*');
                 
+            }     
+            while (missedWords < 7)
+            {
+                
+                System.out.println("Your word looks like this:");
+                System.out.println(myName);
 
-                System.out.println(word);
-                break;
+                System.out.println("Enter your guess :");
+                System.out.print("->");
+                char fUpper = Character.toUpperCase(guessWord.next().charAt(0));
+
+                if(!(word.contains(String.valueOf(fUpper))))
+                {
+                    wrongLetters.append(fUpper + " ");
+                    missedWords += 1;
+                }
+                for (int i = 0; i < word.length(); i++) 
+                {
+                    if (fUpper == word.charAt(i))
+                    {
+                        myName.setCharAt(i, fUpper);
+                        storePoints += 1;
+                    }
+                }
+                printBoard(missedWords);
+                //System.out.println("Points: " + storePoints);
+                System.out.println("Wrong Letters: " + wrongLetters.toString());
+                if(word.equals(myName.toString()))
+                {
+                    System.out.println("Game Won!");
+                    break;
+                }
+                else if(missedWords == 6)
+                {
+                    System.out.println("Game Lost...");
+                    System.out.println("Word to be guessed :" + word);
+                    break;
+                }
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                guessWord.close();
+            }
+        }
+
+        else if (mode == 3)
+        {
+            Random randomIndex = new Random();              // Used to get random word from list
+            Scanner guessWord = new Scanner(System.in);     // Scanner to read user input
+
+            String word = hardMode[randomIndex.nextInt(hardMode.length)].toString();    // Word randomly chosen from list
+            StringBuilder myName = new StringBuilder(word);                 //Hides the word to be guessed and unveils it as the user guesses
+            StringBuilder wrongLetters = new StringBuilder();               //Stores the wrong guessed letters
+            for (int i = 0; i < word.length(); i++)
+            {
+                myName.setCharAt(i, '*');
+                
+            }     
+            while (missedWords < 7)
+            {
+                
+                System.out.println("Your word looks like this:");
+                System.out.println(myName);
+
+                System.out.println("Enter your guess :");
+                System.out.print("->");
+                char fUpper = Character.toUpperCase(guessWord.next().charAt(0));
+
+                if(!(word.contains(String.valueOf(fUpper))))
+                {
+                    wrongLetters.append(fUpper + " ");
+                    missedWords += 1;
+                }
+                for (int i = 0; i < word.length(); i++) 
+                {
+                    if (fUpper == word.charAt(i))
+                    {
+                        myName.setCharAt(i, fUpper);
+                        storePoints += 1;
+                    }
+                }
+                printBoard(missedWords);
+                //System.out.println("Points: " + storePoints);
+                System.out.println("Wrong Letters: " + wrongLetters.toString());
+                if(word.equals(myName.toString()))
+                {
+                    System.out.println("Game Won!");
+                    break;
+                }
+                else if(missedWords == 6)
+                {
+                    System.out.println("Game Lost...");
+                    System.out.println("Word to be guessed :" + word);
+                    break;
+                }
+                System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~");
+                guessWord.close();
+            }
         }
     }
-
-    public static void main(String[] args)
-    {
-       // initializeGame();
-        // printBoard(0);
-        // printBoard(1);
-        // printBoard(2);
-        // printBoard(3);
-        // printBoard(4);
-        // printBoard(5);
-        // printBoard(6);
-    }
-
 }
